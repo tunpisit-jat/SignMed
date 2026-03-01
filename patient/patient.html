@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SignMed - Patient Kiosk</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,8 +18,7 @@
         }
     </script>
     <style>
-        body,
-        html {
+        body, html {
             height: 100%;
             width: 100%;
             overflow-x: hidden;
@@ -30,7 +27,6 @@
             overscroll-behavior: none;
         }
 
-        /* การ์ดและ UI */
         .card-box {
             background: #ffffff;
             border-radius: 1.25rem;
@@ -44,7 +40,7 @@
             height: 100%;
         }
 
-        /* Custom Range Slider (ปรับให้เล็กลงกะทัดรัด) */
+        /* Custom Range Slider */
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
@@ -52,9 +48,7 @@
             padding: 8px 0;
         }
 
-        input[type=range]:focus {
-            outline: none;
-        }
+        input[type=range]:focus { outline: none; }
 
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
@@ -81,20 +75,17 @@
             transform: scale(1.1);
         }
 
-        /* Body Part SVG (สไตล์ Blocky) */
+        /* Body Part SVG */
         .body-part {
             fill: #e2e8f0;
             transition: all 0.2s ease;
             cursor: pointer;
         }
 
-        .body-part:hover {
-            fill: #cbd5e1;
-        }
-
-        .body-part.selected {
-            fill: #3b82f6;
-        }
+        .body-part:hover { fill: #cbd5e1; }
+        .body-part.selected { fill: #3b82f6; }
+        
+        .hide-scrollbar::-webkit-scrollbar { width: 0px; }
     </style>
 </head>
 
@@ -102,335 +93,259 @@
 
     <main class="w-full h-full flex flex-col justify-center min-h-0 relative" id="kiosk-content">
 
-        <div id="page-standby"
-            class="screen-page flex-col items-center justify-center p-6 lg:p-12 animate-fade-in bg-gradient-to-b from-[#f0f4f8] to-[#e4ebf1]">
+        <div id="page-standby" class="screen-page flex-col items-center justify-center p-6 xl:p-12 animate-fade-in bg-gradient-to-b from-[#f0f4f8] to-[#e4ebf1]">
             <div class=" flex justify-center w-full">
-                <img src="logo_signmed.png" alt="SignMed" class="h-24 lg:h-52 object-contain">
+                <img src="logo_signmed.png" alt="SignMed" class="h-24 xl:h-52 object-contain">
             </div>
-            <div
-                class="w-full max-w-5xl aspect-video lg:aspect-[21/9] bg-white/60 rounded-[2rem] lg:rounded-[3rem] border border-white shadow-lg overflow-hidden relative mb-12">
-                <video autoplay loop muted playsinline
-                    class="absolute top-0 left-0 w-full h-full object-cover opacity-80 mix-blend-multiply">
+            <div class="w-full max-w-5xl aspect-video xl:aspect-[21/9] bg-white/60 rounded-[2rem] xl:rounded-[3rem] border border-white shadow-lg overflow-hidden relative mb-12">
+                <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover opacity-80 mix-blend-multiply">
                     <source src="video_bg.mp4" type="video/mp4">
                 </video>
             </div>
             <div class="bg-white px-8 py-4 rounded-full border border-slate-200 shadow-sm flex items-center gap-4">
                 <span class="w-4 h-4 rounded-full bg-blue-500 animate-pulse"></span>
-                <span class="text-xl lg:text-2xl font-bold text-slate-700 tracking-wide">
+                <span class="text-xl xl:text-2xl font-bold text-slate-700 tracking-wide">
                     กรุณารอพยาบาลเพื่อเริ่มต้น <span class="text-slate-400 font-en font-normal ml-2">| Standby</span>
                 </span>
             </div>
         </div>
 
-        <div id="page-intro"
-            class="screen-page flex-col items-center justify-center p-6 lg:p-10 animate-fade-in bg-[#f4f5f7] overflow-hidden">
+        <div id="page-intro" class="screen-page flex-col items-center justify-center p-6 xl:p-10 animate-fade-in bg-[#f4f5f7] overflow-hidden">
             <div class="w-full max-w-3xl flex flex-col items-center h-full max-h-screen justify-center">
-
                 <div class="text-center mb-6 shrink-0">
-                    <h1 class="text-3xl lg:text-4xl font-extrabold text-slate-800 mb-2">คำแนะนำการใช้งาน</h1>
-                    <p class="text-slate-500 text-base lg:text-lg font-medium">
-                        กรุณาดูวิดีโอเพื่อทำความเข้าใจขั้นตอนการประเมินอาการ</p>
+                    <h1 class="text-3xl xl:text-4xl font-extrabold text-slate-800 mb-2">คำแนะนำการใช้งาน</h1>
+                    <p class="text-slate-500 text-base xl:text-lg font-medium">กรุณาดูวิดีโอเพื่อทำความเข้าใจขั้นตอนการประเมินอาการ</p>
                 </div>
-
-                <div
-                    class="card-box w-full aspect-video bg-black overflow-hidden shadow-xl mb-8 flex items-center justify-center max-h-[50vh]">
+                <div class="card-box w-full aspect-video bg-black overflow-hidden shadow-xl mb-8 flex items-center justify-center max-h-[50vh]">
                     <video controls class="w-full h-full object-contain">
                         <source src="intro_video.mp4" type="video/mp4">
                         เบราว์เซอร์ของคุณไม่รองรับการเล่นวิดีโอ
                     </video>
                 </div>
-
-                <button onclick="updateState({phase: 'BODYMAP'})"
-                    class="shrink-0 bg-[#1a73e8] hover:bg-blue-700 text-white font-bold py-4 px-12 rounded-full text-xl lg:text-2xl transition-all shadow-lg active:scale-95 flex items-center gap-2">
+                <button onclick="updateState({phase: 'BODYMAP'})" class="shrink-0 bg-[#1a73e8] hover:bg-blue-700 text-white font-bold py-4 px-12 rounded-full text-xl xl:text-2xl transition-all shadow-lg active:scale-95 flex items-center gap-2">
                     ถัดไป (Next) <span>→</span>
                 </button>
             </div>
         </div>
 
+        <div id="page-bodymap" class="screen-page flex-col w-full h-full overflow-y-auto xl:overflow-hidden bg-[#f4f5f7]">
+            <div class="w-full max-w-[1400px] mx-auto p-4 md:p-8 xl:p-8 flex flex-col xl:grid xl:grid-cols-12 gap-5 md:gap-8 xl:gap-8 h-full min-h-0">
 
-        <div id="page-bodymap"
-            class="screen-page flex-col w-full h-full overflow-y-auto lg:overflow-hidden bg-[#f4f5f7]">
-
-            <div
-                class="w-full max-w-[1400px] mx-auto p-4 lg:p-8 flex flex-col lg:grid lg:grid-cols-12 gap-5 lg:gap-8 h-full min-h-0">
-
-                <div
-                    class="lg:col-span-4 lg:col-start-1 lg:row-start-1 flex flex-col justify-end shrink-0 pt-2 lg:pt-0">
-                    <h1 class="text-[28px] lg:text-4xl font-extrabold text-[#1a2b4b] mb-1 tracking-tight">
-                        ท่านเจ็บปวดบริเวณไหน ?</h1>
-                    <p class="text-slate-500 font-medium text-sm lg:text-base">แตะที่ส่วนต่างๆ
-                        ของร่างกายที่คุณรู้สึกเจ็บปวด</p>
+                <div class="xl:col-span-4 xl:col-start-1 xl:row-start-1 flex flex-col justify-end shrink-0 pt-2 xl:pt-0">
+                    <h1 class="text-[28px] md:text-3xl xl:text-4xl font-extrabold text-[#1a2b4b] mb-1 tracking-tight">ท่านเจ็บปวดบริเวณไหน ?</h1>
+                    <p class="text-slate-500 font-medium text-sm md:text-base">แตะที่ส่วนต่างๆ ของร่างกายที่คุณรู้สึกเจ็บปวด</p>
                 </div>
 
-                <div
-                    class="lg:col-span-4 lg:col-start-1 lg:row-start-2 flex flex-col gap-5 lg:gap-6 shrink-0 lg:h-full">
-
-                    <div class="flex flex-row lg:flex-col gap-4 lg:gap-6 h-[180px] sm:h-[220px] lg:h-auto lg:flex-1">
-
-                        <div
-                            class="w-1/2 lg:w-full bg-[#dcdfe4] rounded-[1.25rem] lg:rounded-[1.5rem] relative flex items-center justify-center overflow-hidden lg:h-[240px] shrink-0 border border-[#d1d5db] shadow-sm group">
+                <div class="xl:col-span-4 xl:col-start-1 xl:row-start-2 flex flex-col gap-5 md:gap-6 shrink-0 xl:h-full">
+                    <div class="flex flex-col md:flex-row xl:flex-col gap-4 md:gap-6 h-[180px] sm:h-[220px] md:h-auto xl:flex-1">
+                        <div class="w-full md:w-1/2 xl:w-full bg-[#dcdfe4] rounded-[1.25rem] xl:rounded-[1.5rem] relative flex items-center justify-center overflow-hidden h-[200px] md:h-[220px] xl:h-[240px] shrink-0 border border-[#d1d5db] shadow-sm group">
                             <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
                                 <source src="video_bg.mp4" type="video/mp4">
                             </video>
-                            <h2 class="text-lg lg:text-2xl font-extrabold text-slate-700/50 absolute z-[-1]">
-                                พื้นที่วิดีโอ</h2>
+                            <h2 class="text-lg md:text-xl xl:text-2xl font-extrabold text-slate-700/50 absolute z-[-1]">พื้นที่วิดีโอ</h2>
                         </div>
 
-                        <div
-                            class="w-1/2 lg:w-full bg-white rounded-[1.25rem] lg:rounded-[1.5rem] p-4 lg:p-6 flex flex-col shadow-sm border border-slate-200 lg:flex-1 lg:min-h-[180px]">
-                            <div
-                                class="text-[11px] lg:text-[13px] font-bold text-blue-500 uppercase tracking-widest mb-3 shrink-0">
-                                SELECTED AREAS</div>
-                            <div id="tags-container"
-                                class="flex flex-wrap gap-2 overflow-y-auto content-start flex-1 hide-scrollbar">
-                            </div>
+                        <div class="w-full md:w-1/2 xl:w-full bg-white rounded-[1.25rem] xl:rounded-[1.5rem] p-4 md:p-6 flex flex-col shadow-sm border border-slate-200 h-[180px] md:h-[220px] xl:h-auto xl:flex-1 xl:min-h-[180px]">
+                            <div class="text-[11px] xl:text-[13px] font-bold text-blue-500 uppercase tracking-widest mb-3 shrink-0">SELECTED AREAS</div>
+                            <div id="tags-container" class="flex flex-wrap gap-2 overflow-y-auto content-start flex-1 hide-scrollbar"></div>
                         </div>
-
                     </div>
 
-                    <button id="btn-confirm-desktop" onclick="updateState({phase: 'QA'})"
-                        class="hidden lg:flex w-full bg-[#1a73e8] hover:bg-blue-700 text-white font-bold py-4 rounded-full text-lg lg:text-xl transition-all items-center justify-center gap-3 shadow-[0_8px_20px_rgba(26,115,232,0.3)] mt-auto active:scale-95">
-                        Confirm Selection <div
-                            class="bg-white text-[#1a73e8] w-5 h-5 rounded-full flex items-center justify-center text-xs font-black shadow-sm">
-                            ✓</div>
+                    <button id="btn-confirm-desktop" onclick="confirmBodyMap()" class="hidden xl:flex w-full bg-[#1a73e8] hover:bg-blue-700 text-white font-bold py-4 rounded-full text-lg xl:text-xl transition-all items-center justify-center gap-3 shadow-[0_8px_20px_rgba(26,115,232,0.3)] mt-auto active:scale-95">
+                        ยืนยันและส่งข้อมูล <div class="bg-white text-[#1a73e8] w-5 h-5 rounded-full flex items-center justify-center text-xs font-black shadow-sm">✓</div>
                     </button>
                 </div>
 
-                <div
-                    class="lg:col-span-8 lg:col-start-5 lg:row-start-1 lg:row-span-2 flex flex-col gap-5 lg:gap-6 flex-1 min-h-0">
-
-                    <div
-                        class="bg-white rounded-[1.25rem] lg:rounded-[1.5rem] flex flex-col shadow-sm border border-slate-200 flex-1 min-h-[400px] lg:min-h-0 overflow-hidden">
-
-                        <div class="flex border-b border-slate-100 h-[50px] lg:h-[60px] shrink-0">
-                            <div
-                                class="flex-1 flex items-center justify-center text-[13px] lg:text-[15px] font-bold text-slate-400 relative border-l border-slate-100 bg-slate-50/30">
-                                Front View</div>
-                            <div
-                                class="flex-1 flex items-center justify-center text-[13px] lg:text-[15px] font-bold text-slate-400 relative border-l border-slate-100 bg-slate-50/30">
+                <div class="xl:col-span-8 xl:col-start-5 xl:row-start-1 xl:row-span-2 flex flex-col gap-5 md:gap-6 flex-1 min-h-0">
+                    <div class="bg-white rounded-[1.25rem] xl:rounded-[1.5rem] flex flex-col shadow-sm border border-slate-200 flex-1 min-h-[400px] md:min-h-[550px] xl:min-h-0 overflow-hidden">
+                        <div class="flex border-b border-slate-100 h-[50px] xl:h-[60px] shrink-0">
+                            <div class="flex-1 flex items-center justify-center text-[13px] xl:text-[15px] font-bold text-slate-400 relative border-l border-slate-100 bg-slate-50/30">Front View</div>
+                            <div class="flex-1 flex items-center justify-center text-[13px] xl:text-[15px] font-bold text-slate-400 relative border-l border-slate-100 bg-slate-50/30">
                                 Back View
-                                <div
-                                    class="absolute right-4 hidden md:flex items-center gap-1.5 border border-slate-200 px-3 py-1.5 rounded-full bg-white shadow-sm">
-                                    <span class="text-sm">👆</span> <span
-                                        class="text-[11px] text-slate-500 font-bold">Tap to select</span>
+                                <div class="absolute right-4 hidden md:flex items-center gap-1.5 border border-slate-200 px-3 py-1.5 rounded-full bg-white shadow-sm pointer-events-none">
+                                    <span class="text-sm">👆</span> <span class="text-[11px] text-slate-500 font-bold">Tap to select</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="flex flex-row p-4 lg:p-8 flex-1 min-h-0">
+                        <div class="flex flex-row p-4 md:p-6 xl:p-8 flex-1 min-h-0">
                             <div class="flex-1 flex items-center justify-center border-r border-slate-100 h-full">
                                 <svg viewBox="0 0 200 500" class="h-full w-auto max-h-full overflow-visible">
-                                    <ellipse cx="100" cy="45" rx="26" ry="34" class="body-part"
-                                        onclick="toggleBodyPart('ศีรษะ')" data-part="ศีรษะ" />
-                                    <polygon points="88,80 112,80 112,95 88,95" class="body-part"
-                                        onclick="toggleBodyPart('ลำคอ')" data-part="ลำคอ" />
-                                    <polygon points="70,95 130,95 125,160 75,160" class="body-part"
-                                        onclick="toggleBodyPart('หน้าอก')" data-part="หน้าอก" />
-                                    <polygon points="75,165 125,165 120,220 80,220" class="body-part"
-                                        onclick="toggleBodyPart('หน้าท้อง')" data-part="หน้าท้อง" />
-                                    <polygon points="80,225 120,225 120,260 80,260" class="body-part"
-                                        onclick="toggleBodyPart('ช่องท้องส่วนล่าง')" data-part="ช่องท้องส่วนล่าง" />
-                                    <polygon points="65,95 40,110 38,180 58,175" class="body-part"
-                                        onclick="toggleBodyPart('หัวไหล่ขวา')" data-part="หัวไหล่ขวา" />
-                                    <polygon points="36,185 56,180 50,250 30,255" class="body-part"
-                                        onclick="toggleBodyPart('แขนขวาท่อนล่าง')" data-part="แขนขวาท่อนล่าง" />
-                                    <polygon points="28,258 48,253 44,285 24,290" class="body-part"
-                                        onclick="toggleBodyPart('มือขวา')" data-part="มือขวา" />
-                                    <polygon points="78,265 98,265 95,365 72,365" class="body-part"
-                                        onclick="toggleBodyPart('ต้นขาขวา')" data-part="ต้นขาขวา" />
-                                    <polygon points="72,370 95,370 95,450 78,450" class="body-part"
-                                        onclick="toggleBodyPart('น่องขวา')" data-part="น่องขวา" />
-                                    <polygon points="78,455 95,455 98,475 70,475" class="body-part"
-                                        onclick="toggleBodyPart('เท้าขวา')" data-part="เท้าขวา" />
-                                    <polygon points="135,95 160,110 162,180 142,175" class="body-part"
-                                        onclick="toggleBodyPart('หัวไหล่ซ้าย')" data-part="หัวไหล่ซ้าย" />
-                                    <polygon points="144,185 164,180 170,250 150,255" class="body-part"
-                                        onclick="toggleBodyPart('แขนซ้ายท่อนล่าง')" data-part="แขนซ้ายท่อนล่าง" />
-                                    <polygon points="152,253 172,258 176,290 156,285" class="body-part"
-                                        onclick="toggleBodyPart('มือซ้าย')" data-part="มือซ้าย" />
-                                    <polygon points="102,265 122,265 128,365 105,365" class="body-part"
-                                        onclick="toggleBodyPart('ต้นขาซ้าย')" data-part="ต้นขาซ้าย" />
-                                    <polygon points="105,370 128,370 122,450 105,450" class="body-part"
-                                        onclick="toggleBodyPart('น่องซ้าย')" data-part="น่องซ้าย" />
-                                    <polygon points="105,455 122,455 130,475 102,475" class="body-part"
-                                        onclick="toggleBodyPart('เท้าซ้าย')" data-part="เท้าซ้าย" />
+                                    <ellipse cx="100" cy="45" rx="26" ry="34" class="body-part" onclick="toggleBodyPart('ศีรษะ')" data-part="ศีรษะ" />
+                                    <polygon points="88,80 112,80 112,95 88,95" class="body-part" onclick="toggleBodyPart('ลำคอ')" data-part="ลำคอ" />
+                                    <polygon points="70,95 130,95 125,160 75,160" class="body-part" onclick="toggleBodyPart('หน้าอก')" data-part="หน้าอก" />
+                                    <polygon points="75,165 125,165 120,220 80,220" class="body-part" onclick="toggleBodyPart('หน้าท้อง')" data-part="หน้าท้อง" />
+                                    <polygon points="80,225 120,225 120,260 80,260" class="body-part" onclick="toggleBodyPart('ช่องท้องส่วนล่าง')" data-part="ช่องท้องส่วนล่าง" />
+                                    <polygon points="65,95 40,110 38,180 58,175" class="body-part" onclick="toggleBodyPart('หัวไหล่ขวา')" data-part="หัวไหล่ขวา" />
+                                    <polygon points="36,185 56,180 50,250 30,255" class="body-part" onclick="toggleBodyPart('แขนขวาท่อนล่าง')" data-part="แขนขวาท่อนล่าง" />
+                                    <polygon points="28,258 48,253 44,285 24,290" class="body-part" onclick="toggleBodyPart('มือขวา')" data-part="มือขวา" />
+                                    <polygon points="78,265 98,265 95,365 72,365" class="body-part" onclick="toggleBodyPart('ต้นขาขวา')" data-part="ต้นขาขวา" />
+                                    <polygon points="72,370 95,370 95,450 78,450" class="body-part" onclick="toggleBodyPart('น่องขวา')" data-part="น่องขวา" />
+                                    <polygon points="78,455 95,455 98,475 70,475" class="body-part" onclick="toggleBodyPart('เท้าขวา')" data-part="เท้าขวา" />
+                                    <polygon points="135,95 160,110 162,180 142,175" class="body-part" onclick="toggleBodyPart('หัวไหล่ซ้าย')" data-part="หัวไหล่ซ้าย" />
+                                    <polygon points="144,185 164,180 170,250 150,255" class="body-part" onclick="toggleBodyPart('แขนซ้ายท่อนล่าง')" data-part="แขนซ้ายท่อนล่าง" />
+                                    <polygon points="152,253 172,258 176,290 156,285" class="body-part" onclick="toggleBodyPart('มือซ้าย')" data-part="มือซ้าย" />
+                                    <polygon points="102,265 122,265 128,365 105,365" class="body-part" onclick="toggleBodyPart('ต้นขาซ้าย')" data-part="ต้นขาซ้าย" />
+                                    <polygon points="105,370 128,370 122,450 105,450" class="body-part" onclick="toggleBodyPart('น่องซ้าย')" data-part="น่องซ้าย" />
+                                    <polygon points="105,455 122,455 130,475 102,475" class="body-part" onclick="toggleBodyPart('เท้าซ้าย')" data-part="เท้าซ้าย" />
                                 </svg>
                             </div>
                             <div class="flex-1 flex items-center justify-center h-full">
                                 <svg viewBox="0 0 200 500" class="h-full w-auto max-h-full overflow-visible">
-                                    <ellipse cx="100" cy="45" rx="26" ry="34" class="body-part"
-                                        onclick="toggleBodyPart('ท้ายทอย')" data-part="ท้ายทอย" />
-                                    <polygon points="88,80 112,80 112,95 88,95" class="body-part"
-                                        onclick="toggleBodyPart('หลังคอ')" data-part="หลังคอ" />
-                                    <polygon points="70,95 130,95 125,160 75,160" class="body-part"
-                                        onclick="toggleBodyPart('หลังช่วงบน')" data-part="หลังช่วงบน" />
-                                    <polygon points="75,165 125,165 120,220 80,220" class="body-part"
-                                        onclick="toggleBodyPart('หลังช่วงกลาง')" data-part="หลังช่วงกลาง" />
-                                    <polygon points="80,225 120,225 120,260 80,260" class="body-part"
-                                        onclick="toggleBodyPart('เอว/สะโพก')" data-part="เอว/สะโพก" />
-                                    <polygon points="65,95 40,110 38,180 58,175" class="body-part"
-                                        onclick="toggleBodyPart('หลังไหล่ขวา')" data-part="หลังไหล่ขวา" />
-                                    <polygon points="36,185 56,180 50,250 30,255" class="body-part"
-                                        onclick="toggleBodyPart('หลังแขนขวา')" data-part="หลังแขนขวา" />
-                                    <polygon points="28,258 48,253 44,285 24,290" class="body-part"
-                                        onclick="toggleBodyPart('หลังมือขวา')" data-part="หลังมือขวา" />
-                                    <polygon points="78,265 98,265 95,365 72,365" class="body-part"
-                                        onclick="toggleBodyPart('หลังต้นขาขวา')" data-part="หลังต้นขาขวา" />
-                                    <polygon points="72,370 95,370 95,450 78,450" class="body-part"
-                                        onclick="toggleBodyPart('น่องหลังขวา')" data-part="น่องหลังขวา" />
-                                    <polygon points="78,455 95,455 98,475 70,475" class="body-part"
-                                        onclick="toggleBodyPart('ส้นเท้าขวา')" data-part="ส้นเท้าขวา" />
-                                    <polygon points="135,95 160,110 162,180 142,175" class="body-part"
-                                        onclick="toggleBodyPart('หลังไหล่ซ้าย')" data-part="หลังไหล่ซ้าย" />
-                                    <polygon points="144,185 164,180 170,250 150,255" class="body-part"
-                                        onclick="toggleBodyPart('หลังแขนซ้าย')" data-part="หลังแขนซ้าย" />
-                                    <polygon points="152,253 172,258 176,290 156,285" class="body-part"
-                                        onclick="toggleBodyPart('หลังมือซ้าย')" data-part="หลังมือซ้าย" />
-                                    <polygon points="102,265 122,265 128,365 105,365" class="body-part"
-                                        onclick="toggleBodyPart('หลังต้นขาซ้าย')" data-part="หลังต้นขาซ้าย" />
-                                    <polygon points="105,370 128,370 122,450 105,450" class="body-part"
-                                        onclick="toggleBodyPart('น่องหลังซ้าย')" data-part="น่องหลังซ้าย" />
-                                    <polygon points="105,455 122,455 130,475 102,475" class="body-part"
-                                        onclick="toggleBodyPart('ส้นเท้าซ้าย')" data-part="ส้นเท้าซ้าย" />
+                                    <ellipse cx="100" cy="45" rx="26" ry="34" class="body-part" onclick="toggleBodyPart('ท้ายทอย')" data-part="ท้ายทอย" />
+                                    <polygon points="88,80 112,80 112,95 88,95" class="body-part" onclick="toggleBodyPart('หลังคอ')" data-part="หลังคอ" />
+                                    <polygon points="70,95 130,95 125,160 75,160" class="body-part" onclick="toggleBodyPart('หลังช่วงบน')" data-part="หลังช่วงบน" />
+                                    <polygon points="75,165 125,165 120,220 80,220" class="body-part" onclick="toggleBodyPart('หลังช่วงกลาง')" data-part="หลังช่วงกลาง" />
+                                    <polygon points="80,225 120,225 120,260 80,260" class="body-part" onclick="toggleBodyPart('เอว/สะโพก')" data-part="เอว/สะโพก" />
+                                    <polygon points="65,95 40,110 38,180 58,175" class="body-part" onclick="toggleBodyPart('หลังไหล่ขวา')" data-part="หลังไหล่ขวา" />
+                                    <polygon points="36,185 56,180 50,250 30,255" class="body-part" onclick="toggleBodyPart('หลังแขนขวา')" data-part="หลังแขนขวา" />
+                                    <polygon points="28,258 48,253 44,285 24,290" class="body-part" onclick="toggleBodyPart('หลังมือขวา')" data-part="หลังมือขวา" />
+                                    <polygon points="78,265 98,265 95,365 72,365" class="body-part" onclick="toggleBodyPart('หลังต้นขาขวา')" data-part="หลังต้นขาขวา" />
+                                    <polygon points="72,370 95,370 95,450 78,450" class="body-part" onclick="toggleBodyPart('น่องหลังขวา')" data-part="น่องหลังขวา" />
+                                    <polygon points="78,455 95,455 98,475 70,475" class="body-part" onclick="toggleBodyPart('ส้นเท้าขวา')" data-part="ส้นเท้าขวา" />
+                                    <polygon points="135,95 160,110 162,180 142,175" class="body-part" onclick="toggleBodyPart('หลังไหล่ซ้าย')" data-part="หลังไหล่ซ้าย" />
+                                    <polygon points="144,185 164,180 170,250 150,255" class="body-part" onclick="toggleBodyPart('หลังแขนซ้าย')" data-part="หลังแขนซ้าย" />
+                                    <polygon points="152,253 172,258 176,290 156,285" class="body-part" onclick="toggleBodyPart('หลังมือซ้าย')" data-part="หลังมือซ้าย" />
+                                    <polygon points="102,265 122,265 128,365 105,365" class="body-part" onclick="toggleBodyPart('หลังต้นขาซ้าย')" data-part="หลังต้นขาซ้าย" />
+                                    <polygon points="105,370 128,370 122,450 105,450" class="body-part" onclick="toggleBodyPart('น่องหลังซ้าย')" data-part="น่องหลังซ้าย" />
+                                    <polygon points="105,455 122,455 130,475 102,475" class="body-part" onclick="toggleBodyPart('ส้นเท้าซ้าย')" data-part="ส้นเท้าซ้าย" />
                                 </svg>
                             </div>
                         </div>
                     </div>
 
-                    <div
-                        class="bg-white rounded-[1.25rem] lg:rounded-[1.5rem] py-4 px-6 lg:py-5 lg:px-8 shadow-sm border border-slate-200 shrink-0">
+                    <div class="bg-white rounded-[1.25rem] xl:rounded-[1.5rem] py-4 px-6 md:py-6 md:px-8 shadow-sm border border-slate-200 shrink-0">
                         <div class="flex justify-between items-center mb-4">
-                            <div class="font-bold text-slate-700 text-[13px] lg:text-[14px]">Pain Intensity</div>
-                            <div class="font-bold text-[13px] lg:text-[14px] text-slate-300 transition-all"
-                                id="pain-display-box">
+                            <div class="font-bold text-slate-700 text-[13px] md:text-[15px] xl:text-[14px]">Pain Intensity</div>
+                            <div class="font-bold text-[13px] md:text-[15px] xl:text-[14px] text-slate-300 transition-all" id="pain-display-box">
                                 <span id="pain-label-text">Moderate</span> (<span id="pain-number">5</span>/10)
                             </div>
                         </div>
-
                         <div>
-                            <input type="range" id="pain-slider" min="1" max="10" value="5"
-                                oninput="updatePain(this.value)" class="w-full mb-3 cursor-pointer">
-                            <div
-                                class="flex justify-between text-[10px] lg:text-[11px] font-bold text-slate-400 uppercase tracking-widest relative px-1 lg:px-2">
-                                <div class="flex flex-col items-center gap-1.5">
-                                    <span class="text-[50px] lg:text-[65px] leading-none">😊</span>
-                                    <span>MILD</span>
-                                </div>
-                                <div class="flex flex-col items-center gap-1.5">
-                                    <span class="text-[50px] lg:text-[65px] leading-none">😐</span>
-                                    <span>MODERATE</span>
-                                </div>
-                                <div class="flex flex-col items-center gap-1.5">
-                                    <span class="text-[50px] lg:text-[65px] leading-none">😭</span>
-                                    <span>SEVERE</span>
-                                </div>
+                            <input type="range" id="pain-slider" min="1" max="10" value="5" oninput="updatePain(this.value)" class="w-full mb-3 md:mb-5 xl:mb-3 cursor-pointer">
+                            <div class="flex justify-between text-[10px] md:text-[12px] xl:text-[11px] font-bold text-slate-400 uppercase tracking-widest relative px-1 md:px-3">
+                                <div class="flex flex-col items-center gap-1.5 md:gap-2"><span class="text-[50px] md:text-[60px] leading-none">😊</span><span>MILD</span></div>
+                                <div class="flex flex-col items-center gap-1.5 md:gap-2"><span class="text-[50px] md:text-[60px] leading-none">😐</span><span>MODERATE</span></div>
+                                <div class="flex flex-col items-center gap-1.5 md:gap-2"><span class="text-[50px] md:text-[60px] leading-none">😭</span><span>SEVERE</span></div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
-                <div class="lg:hidden shrink-0 pb-6 pt-2 flex justify-center">
-                    <button id="btn-confirm-mobile" onclick="updateState({phase: 'QA'})"
-                        class="w-[85%] sm:w-[350px] bg-[#1a73e8] hover:bg-blue-700 text-white font-bold py-4 rounded-full text-lg transition-all flex items-center justify-center gap-3 shadow-[0_8px_20px_rgba(26,115,232,0.3)] active:scale-95">
-                        Confirm Selection <div
-                            class="bg-white text-[#1a73e8] w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black shadow-sm">
-                            ✓</div>
+                <div class="xl:hidden shrink-0 pb-8 md:pb-12 pt-4 flex justify-center">
+                    <button id="btn-confirm-mobile" onclick="confirmBodyMap()" class="w-[85%] md:w-[400px] bg-[#1a73e8] hover:bg-blue-700 text-white font-bold py-4 md:py-5 rounded-full text-lg md:text-xl transition-all flex items-center justify-center gap-3 shadow-[0_8px_20px_rgba(26,115,232,0.3)] active:scale-95">
+                        ยืนยันและส่งข้อมูล <div class="bg-white text-[#1a73e8] w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-[10px] md:text-xs font-black shadow-sm">✓</div>
                     </button>
                 </div>
 
             </div>
         </div>
 
-        <div id="page-qa"
-            class="screen-page flex-col items-center justify-start lg:justify-center p-4 lg:p-8 overflow-y-auto bg-[#f4f5f7]">
-            <div class="w-full max-w-5xl flex flex-col items-center my-auto py-8">
-
-                <div id="qa-video-container"
-                    class="w-full max-w-3xl aspect-video bg-slate-200 rounded-[1.5rem] lg:rounded-[2rem] border border-slate-300 shadow-sm overflow-hidden relative mb-6 lg:mb-8"
-                    style="display: none;">
-                    <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover">
-                        <source src="video_bg.mp4" type="video/mp4">
-                    </video>
-                    <div
-                        class="absolute top-4 left-4 lg:top-6 lg:left-6 bg-white/95 backdrop-blur-md px-3 py-1.5 lg:px-4 lg:py-2 rounded-xl text-xs lg:text-sm font-bold text-slate-700 flex items-center gap-2 shadow-sm border border-slate-100">
-                        <span class="w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full bg-red-500 animate-pulse"></span> LIVE FEED
-                    </div>
+        <div id="page-bodymap-done" class="screen-page flex-col items-center justify-center animate-fade-in bg-[#f4f5f7] p-6">
+            <div class="bg-white p-12 xl:p-20 rounded-[3rem] text-center w-full max-w-3xl mx-auto shadow-sm border border-slate-200">
+                <div class="w-24 h-24 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center text-5xl mx-auto mb-8 border border-blue-100 animate-pulse">📋</div>
+                <h1 class="text-3xl xl:text-4xl font-extrabold mb-4 text-slate-800">ส่งข้อมูลเรียบร้อย</h1>
+                <p class="text-slate-500 text-lg xl:text-xl leading-relaxed mb-8">พยาบาลได้รับข้อมูลตำแหน่งที่เจ็บแล้ว<br>กรุณารอสักครู่ พยาบาลจะเริ่มถามคำถามเพิ่มเติม</p>
+                <div class="bg-blue-50 py-3 px-8 rounded-full font-bold text-blue-600 inline-flex items-center gap-3 border border-blue-100">
+                    <span class="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></span> รอพยาบาลเริ่มซักประวัติ...
                 </div>
-
-                <h2 id="qa-question-text"
-                    class="text-2xl lg:text-4xl font-extrabold mb-6 lg:mb-8 text-slate-800 bg-white px-6 py-4 lg:py-6 rounded-[1.5rem] lg:rounded-full shadow-sm border border-slate-200 text-center w-full lg:w-auto leading-snug">
-                    รอคำถามจากพยาบาล...
-                </h2>
-
-                <div id="qa-buttons" class="w-full flex justify-center" style="display: none;">
-                </div>
-
-                <div id="qa-waiting-icon" class="flex flex-col items-center mt-4">
-                    <div
-                        class="w-12 h-12 lg:w-16 lg:h-16 border-4 border-slate-200 border-t-[#1a73e8] rounded-full animate-spin mb-4">
-                    </div>
-                    <p class="text-slate-500 text-base lg:text-xl font-medium">โปรดมองที่หน้าจอและรอสักครู่</p>
-                </div>
-
             </div>
         </div>
 
-        <div id="page-alert" class="screen-page flex-col items-center justify-center animate-fade-in bg-[#f4f5f7]">
-            <div
-                class="w-full max-w-4xl mx-auto bg-white p-10 lg:p-20 rounded-[3rem] text-center shadow-lg border border-red-100">
-                <div class="text-7xl lg:text-8xl mb-6">🚨</div>
-                <h1 class="text-4xl lg:text-6xl font-extrabold mb-4 text-red-500 tracking-tight">กรุณารอสักครู่</h1>
-                <p class="text-lg lg:text-2xl text-slate-600 mb-10 font-medium leading-relaxed">
-                    พยาบาลกำลังประสานงานล่ามภาษามือ (TTRS)<br>เพื่อให้ความช่วยเหลือท่านทันที</p>
-                <div
-                    class="bg-red-50 py-4 px-8 rounded-full font-bold text-lg lg:text-xl text-red-500 inline-flex items-center gap-3 border border-red-100">
+        <div id="page-qa" class="screen-page flex-col items-center justify-start xl:justify-center p-4 xl:p-8 overflow-y-auto bg-[#f4f5f7]">
+            <div class="w-full max-w-5xl flex flex-col items-center my-auto py-8">
+                <div id="qa-video-container" class="w-full max-w-3xl aspect-video bg-slate-200 rounded-[1.5rem] xl:rounded-[2rem] border border-slate-300 shadow-sm overflow-hidden relative mb-6 xl:mb-8" style="display: none;">
+                    <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover">
+                        <source src="video_bg.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute top-4 left-4 xl:top-6 xl:left-6 bg-white/95 backdrop-blur-md px-3 py-1.5 xl:px-4 xl:py-2 rounded-xl text-xs xl:text-sm font-bold text-slate-700 flex items-center gap-2 shadow-sm border border-slate-100">
+                        <span class="w-2.5 h-2.5 xl:w-3 xl:h-3 rounded-full bg-red-500 animate-pulse"></span> LIVE FEED
+                    </div>
+                </div>
+
+                <h2 id="qa-question-text" class="text-2xl xl:text-4xl font-extrabold mb-6 xl:mb-8 text-slate-800 bg-white px-6 py-4 xl:py-6 rounded-[1.5rem] xl:rounded-full shadow-sm border border-slate-200 text-center w-full xl:w-auto leading-snug">รอคำถามจากพยาบาล...</h2>
+
+                <div id="qa-buttons" class="w-full flex justify-center" style="display: none;"></div>
+
+                <div id="qa-waiting-icon" class="flex flex-col items-center mt-4">
+                    <div class="w-12 h-12 xl:w-16 xl:h-16 border-4 border-slate-200 border-t-[#1a73e8] rounded-full animate-spin mb-4"></div>
+                    <p class="text-slate-500 text-base xl:text-xl font-medium">โปรดมองที่หน้าจอและรอสักครู่</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-alert" class="screen-page flex-col items-center justify-center animate-fade-in bg-[#f4f5f7] p-6">
+            <div class="w-full max-w-4xl mx-auto bg-white p-10 xl:p-20 rounded-[3rem] text-center shadow-lg border border-red-100">
+                <div class="text-7xl xl:text-8xl mb-6">🚨</div>
+                <h1 class="text-4xl xl:text-6xl font-extrabold mb-4 text-red-500 tracking-tight">กรุณารอสักครู่</h1>
+                <p class="text-lg xl:text-2xl text-slate-600 mb-10 font-medium leading-relaxed">พยาบาลกำลังประสานงานล่ามภาษามือ (TTRS)<br>เพื่อให้ความช่วยเหลือท่านทันที</p>
+                <div class="bg-red-50 py-4 px-8 rounded-full font-bold text-lg xl:text-xl text-red-500 inline-flex items-center gap-3 border border-red-100">
                     <span class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span> กำลังเปิดระบบวิดีโอคอล...
                 </div>
             </div>
         </div>
 
-        <div id="page-output" class="screen-page flex-col items-center justify-center animate-fade-in bg-[#f4f5f7]">
-            <div
-                class="bg-white p-12 lg:p-24 rounded-[3rem] text-center w-full max-w-4xl mx-auto shadow-sm border border-slate-200">
-                <div
-                    class="w-28 h-28 lg:w-36 lg:h-36 bg-emerald-50 text-[#10b981] rounded-full flex items-center justify-center text-6xl lg:text-7xl mx-auto mb-8 border border-emerald-100">
-                    ✓</div>
-                <h1 class="text-4xl lg:text-5xl font-extrabold mb-4 text-slate-800 tracking-tight">ส่งข้อมูลเรียบร้อย
-                </h1>
-                <p class="text-slate-500 text-xl lg:text-2xl leading-relaxed">
-                    พยาบาลได้รับอาการของท่านแล้ว<br>กรุณานั่งรอเรียกชื่อเพื่อพบแพทย์</p>
+        <div id="page-output" class="screen-page flex-col items-center justify-center animate-fade-in bg-[#f4f5f7] p-6">
+            <div class="bg-white p-12 xl:p-24 rounded-[3rem] text-center w-full max-w-4xl mx-auto shadow-sm border border-slate-200">
+                <div class="w-28 h-28 xl:w-36 xl:h-36 bg-emerald-50 text-[#10b981] rounded-full flex items-center justify-center text-6xl xl:text-7xl mx-auto mb-8 border border-emerald-100">✓</div>
+                <h1 class="text-4xl xl:text-5xl font-extrabold mb-4 text-slate-800 tracking-tight">ส่งข้อมูลเรียบร้อย</h1>
+                <p class="text-slate-500 text-xl xl:text-2xl leading-relaxed">พยาบาลได้รับอาการของท่านแล้ว<br>กรุณานั่งรอเรียกชื่อเพื่อพบแพทย์</p>
             </div>
         </div>
 
     </main>
 
     <script>
-        let state = JSON.parse(localStorage.getItem('signmed_state')) || { phase: 'START', tags: [], painScore: 5 };
+        // แก้ปัญหา State เริ่มต้นและป้องกันข้อมูลหาย
+        let savedState = JSON.parse(localStorage.getItem('signmed_state')) || { phase: 'START', tags: [], painScore: 5, answers: [] };
+        let state = {
+            ...savedState,
+            tags: savedState.tags || [],
+            answers: savedState.answers || []
+        };
 
         function updateState(newState) {
             state = { ...state, ...newState };
+
+            // กรณีเกิด QA แล้วปวดรุนแรง
+            if (state.phase === 'QA' && state.painScore >= 8 && !state._alertShown) {
+                state._alertShown = true;
+                state.phase = 'ALERT';
+            }
+
             localStorage.setItem('signmed_state', JSON.stringify(state));
             render();
         }
 
         window.addEventListener('storage', (e) => {
-            if (e.key === 'signmed_state') { state = JSON.parse(e.newValue); render(); }
+            if (e.key === 'signmed_state') { 
+                // ✅ FIX: ป้องกัน Error กรณีข้อมูลว่างเปล่า (null)
+                if (!e.newValue) {
+                    state = { phase: 'START', tags: [], painScore: 5, answers: [] };
+                } else {
+                    let freshState = JSON.parse(e.newValue); 
+                    state = {
+                        ...freshState,
+                        tags: freshState.tags || [],
+                        answers: freshState.answers || []
+                    };
+                }
+                render(); 
+            }
         });
 
-        // ฟังก์ชัน Render หลัก (แยก Logic ของ INTRO และ BODYMAP ให้ถูกต้อง)
         function render() {
             document.querySelectorAll('.screen-page').forEach(page => page.style.display = 'none');
 
             if (state.phase === 'START' || state.phase === 'IDENTIFY') {
                 document.getElementById('page-standby').style.display = 'flex';
             } else if (state.phase === 'INTRO') {
-                // แสดงหน้าแนะนำวิดีโอ เมื่อพยาบาลกด "ส่งหน้าจอให้ผู้ป่วย"
                 document.getElementById('page-intro').style.display = 'flex';
             } else if (state.phase === 'BODYMAP') {
-                // แสดงแผนผังร่างกาย เมื่อผู้ป่วยกด "ถัดไป" จากหน้าแนะนำ
                 document.getElementById('page-bodymap').style.display = 'flex';
                 updateBodyMapUI();
+            } else if (state.phase === 'BODYMAP_DONE') {
+                document.getElementById('page-bodymap-done').style.display = 'flex';
             } else if (state.phase === 'QA') {
                 document.getElementById('page-qa').style.display = 'flex';
                 updateQAUI();
@@ -480,7 +395,7 @@
                     tagsContainer.innerHTML = `<div class="w-full text-center text-slate-400 font-medium text-[13px] mt-4">แตะที่รูปเพื่อเลือกบริเวณ...</div>`;
                 } else {
                     tagsContainer.innerHTML = safeTags.map(tag => `
-                        <div class="px-3 py-1.5 bg-white border border-slate-200 rounded-full flex items-center gap-2 text-[12px] lg:text-[13px] font-bold text-slate-600 shadow-sm">
+                        <div class="px-3 py-1.5 bg-white border border-slate-200 rounded-full flex items-center gap-2 text-[12px] xl:text-[13px] font-bold text-slate-600 shadow-sm">
                           ${tag} <button onclick="removeTag('${tag}')" class="text-slate-400 hover:text-red-500 text-lg leading-none">&times;</button>
                         </div>`).join('');
                 }
@@ -489,7 +404,7 @@
             const details = getPainDetails(safePainScore);
             const painBox = document.getElementById('pain-display-box');
             if (painBox) {
-                painBox.className = `font-bold text-xs lg:text-[14px] transition-all ${details.color}`;
+                painBox.className = `font-bold text-xs xl:text-[14px] transition-all ${details.color}`;
                 document.getElementById('pain-label-text').innerText = details.label;
                 document.getElementById('pain-number').innerText = safePainScore;
                 const painSlider = document.getElementById('pain-slider');
@@ -512,7 +427,7 @@
             });
         }
 
-        function updateQAUI() {
+       function updateQAUI() {
             const qText = document.getElementById('qa-question-text');
             const videoBox = document.getElementById('qa-video-container');
             const btns = document.getElementById('qa-buttons');
@@ -525,31 +440,78 @@
                 let buttonsHTML = '';
                 const q = state.currentQ;
 
-                if (q === 'ท่านมีประวัติแพ้ยา หรือแพ้อาหารไหม?') {
-                    buttonsHTML = `
-                      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4 w-full max-w-4xl">
-                          <button onclick="answerQ('ไม่แพ้')" class="py-3.5 lg:py-5 bg-emerald-50 text-emerald-600 border-2 border-emerald-400 rounded-2xl text-base lg:text-xl font-bold hover:bg-emerald-100 transition-all active:scale-95 leading-tight">✓ ไม่แพ้</button>
-                          <button onclick="answerQ('แพ้ยา')" class="py-3.5 lg:py-5 bg-rose-50 text-rose-600 border-2 border-rose-400 rounded-2xl text-base lg:text-xl font-bold hover:bg-rose-100 transition-all active:scale-95 leading-tight">แพ้ยา</button>
-                          <button onclick="answerQ('แพ้อาหาร')" class="py-3.5 lg:py-5 bg-amber-50 text-amber-600 border-2 border-amber-400 rounded-2xl text-base lg:text-xl font-bold hover:bg-amber-100 transition-all active:scale-95 leading-tight">แพ้อาหาร</button>
-                          <button onclick="answerQ('ไม่แน่ใจ')" class="py-3.5 lg:py-5 bg-slate-50 text-slate-600 border-2 border-slate-300 rounded-2xl text-base lg:text-xl font-bold hover:bg-slate-100 transition-all active:scale-95 leading-tight">🤔 ไม่แน่ใจ</button>
-                      </div>`;
-                }
-                else if (q === '(สำหรับผู้หญิง) ท่านกำลังตั้งครรภ์ หรือให้นมบุตรอยู่ไหม?') {
-                    buttonsHTML = `
-                      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4 w-full max-w-4xl">
-                          <button onclick="answerQ('ไม่ได้ตั้งครรภ์')" class="py-3.5 lg:py-5 bg-emerald-50 text-emerald-600 border-2 border-emerald-400 rounded-2xl text-base lg:text-xl font-bold hover:bg-emerald-100 transition-all active:scale-95 leading-tight">✓ ไม่ได้ตั้งครรภ์</button>
-                          <button onclick="answerQ('ตั้งครรภ์อยู่')" class="py-3.5 lg:py-5 bg-rose-50 text-rose-600 border-2 border-rose-400 rounded-2xl text-base lg:text-xl font-bold hover:bg-rose-100 transition-all active:scale-95 leading-tight">🤰 ตั้งครรภ์อยู่</button>
-                          <button onclick="answerQ('ให้นมบุตร')" class="py-3.5 lg:py-5 bg-blue-50 text-blue-600 border-2 border-blue-400 rounded-2xl text-base lg:text-xl font-bold hover:bg-blue-100 transition-all active:scale-95 leading-tight">ให้นมบุตร</button>
-                          <button onclick="answerQ('ไม่แน่ใจ')" class="py-3.5 lg:py-5 bg-slate-50 text-slate-600 border-2 border-slate-300 rounded-2xl text-base lg:text-xl font-bold hover:bg-slate-100 transition-all active:scale-95 leading-tight">🤔 ไม่แน่ใจ</button>
-                      </div>`;
-                }
-                else {
-                    // Fallback สำหรับคำถามอื่นๆ
-                    buttonsHTML = `
-                      <div class="flex flex-col sm:flex-row w-full gap-3 lg:gap-4 justify-center max-w-2xl mx-auto">
-                          <button onclick="answerQ('ไม่ใช่')" class="flex-1 py-4 lg:py-5 bg-white border-2 border-red-400 text-red-500 rounded-[1.5rem] text-xl lg:text-2xl font-bold shadow-sm hover:bg-red-50 active:scale-95 transition-all leading-tight">✕ ไม่ใช่ (No)</button>
-                          <button onclick="answerQ('ใช่')" class="flex-1 py-4 lg:py-5 bg-[#10b981] text-white rounded-[1.5rem] text-xl lg:text-2xl font-bold shadow-md hover:bg-[#059669] transition-all leading-tight">✓ ใช่ (Yes)</button>
-                      </div>`;
+                // โครงสร้าง Grid 3 คอลัมน์ สำหรับหน้าจอ iPad/Desktop
+                const gridClass = "grid grid-cols-1 sm:grid-cols-3 gap-3 xl:gap-4 w-full max-w-5xl";
+                
+                // สไตล์ปุ่มแบบต่างๆ (เปลี่ยนสีตามบริบทคำตอบ)
+                const btnStyleNeutral = "py-4 xl:py-5 bg-slate-50 text-slate-700 border-2 border-slate-300 rounded-2xl text-lg xl:text-xl font-bold hover:bg-slate-100 transition-all active:scale-95 leading-tight";
+                const btnStyleSafe = "py-4 xl:py-5 bg-emerald-50 text-emerald-700 border-2 border-emerald-400 rounded-2xl text-lg xl:text-xl font-bold hover:bg-emerald-100 transition-all active:scale-95 leading-tight";
+                const btnStyleWarning = "py-4 xl:py-5 bg-amber-50 text-amber-700 border-2 border-amber-400 rounded-2xl text-lg xl:text-xl font-bold hover:bg-amber-100 transition-all active:scale-95 leading-tight";
+                const btnStyleDanger = "py-4 xl:py-5 bg-rose-50 text-rose-700 border-2 border-rose-400 rounded-2xl text-lg xl:text-xl font-bold hover:bg-rose-100 transition-all active:scale-95 leading-tight";
+                const btnStylePrimary = "py-4 xl:py-5 bg-blue-50 text-blue-700 border-2 border-blue-400 rounded-2xl text-lg xl:text-xl font-bold hover:bg-blue-100 transition-all active:scale-95 leading-tight";
+
+                // --- เช็คเงื่อนไขคำถาม และสร้าง 3 ปุ่มตามตาราง ---
+                if (q === 'อาการสำคัญ') {
+                    buttonsHTML = `<div class="${gridClass}">
+                        <button onclick="answerQ('ปวดหัว/ไข้')" class="${btnStyleWarning}">1. ปวดหัว/ไข้</button>
+                        <button onclick="answerQ('ปวดท้อง')" class="${btnStyleWarning}">2. ปวดท้อง</button>
+                        <button onclick="answerQ('อุบัติเหตุ/บาดแผล')" class="${btnStyleDanger}">3. อุบัติเหตุ/บาดแผล</button>
+                    </div>`;
+                } else if (q === 'ตำแหน่งที่ปวด') {
+                    buttonsHTML = `<div class="${gridClass}">
+                        <button onclick="answerQ('ช่วงบน (หัว/อก)')" class="${btnStylePrimary}">1. ช่วงบน (หัว/อก)</button>
+                        <button onclick="answerQ('ช่วงกลาง (ท้อง/หลัง)')" class="${btnStylePrimary}">2. ช่วงกลาง (ท้อง/หลัง)</button>
+                        <button onclick="answerQ('แขน/ขา')" class="${btnStylePrimary}">3. แขน/ขา</button>
+                    </div>`;
+                } else if (q === 'ระดับความปวด') {
+                    buttonsHTML = `<div class="${gridClass}">
+                        <button onclick="answerQ('นิดหน่อย (1-3)')" class="${btnStyleSafe}">1. นิดหน่อย (1-3)</button>
+                        <button onclick="answerQ('ปานกลาง (4-6)')" class="${btnStyleWarning}">2. ปานกลาง (4-6)</button>
+                        <button onclick="answerQ('รุนแรงมาก (7-10)')" class="${btnStyleDanger}">3. รุนแรงมาก (7-10)</button>
+                    </div>`;
+                } else if (q === 'ระยะเวลา') {
+                    buttonsHTML = `<div class="${gridClass}">
+                        <button onclick="answerQ('วันนี้')" class="${btnStylePrimary}">1. วันนี้</button>
+                        <button onclick="answerQ('2-3 วันที่แล้ว')" class="${btnStylePrimary}">2. 2-3 วันที่แล้ว</button>
+                        <button onclick="answerQ('มากกว่า 1 สัปดาห์')" class="${btnStylePrimary}">3. มากกว่า 1 สัปดาห์</button>
+                    </div>`;
+                } else if (q === 'อาการไข้') {
+                    buttonsHTML = `<div class="${gridClass}">
+                        <button onclick="answerQ('มีไข้')" class="${btnStyleDanger}">1. มีไข้</button>
+                        <button onclick="answerQ('ไม่มีไข้')" class="${btnStyleSafe}">2. ไม่มีไข้</button>
+                        <button onclick="answerQ('ไม่แน่ใจ')" class="${btnStyleNeutral}">3. ไม่แน่ใจ</button>
+                    </div>`;
+                } else if (q === 'ประวัติแพ้ยา') {
+                    buttonsHTML = `<div class="${gridClass}">
+                        <button onclick="answerQ('มี (มีบัตรแพ้ยา)')" class="${btnStyleDanger}">1. มี (มีบัตรแพ้ยา)</button>
+                        <button onclick="answerQ('ไม่มี')" class="${btnStyleSafe}">2. ไม่มี</button>
+                        <button onclick="answerQ('ไม่แน่ใจ')" class="${btnStyleNeutral}">3. ไม่แน่ใจ</button>
+                    </div>`;
+                } else if (q === 'โรคประจำตัว') {
+                    buttonsHTML = `<div class="${gridClass}">
+                        <button onclick="answerQ('เบาหวาน/ความดัน')" class="${btnStyleWarning}">1. เบาหวาน/ความดัน</button>
+                        <button onclick="answerQ('โรคหัวใจ/อื่นๆ')" class="${btnStyleDanger}">2. โรคหัวใจ/อื่นๆ</button>
+                        <button onclick="answerQ('ไม่มี')" class="${btnStyleSafe}">3. ไม่มี</button>
+                    </div>`;
+                } else if (q === 'การรับประทานอาหาร') {
+                    buttonsHTML = `<div class="${gridClass}">
+                        <button onclick="answerQ('ทานได้ปกติ')" class="${btnStyleSafe}">1. ทานได้ปกติ</button>
+                        <button onclick="answerQ('ทานแล้วอาเจียน')" class="${btnStyleWarning}">2. ทานแล้วอาเจียน</button>
+                        <button onclick="answerQ('ทานไม่ได้เลย')" class="${btnStyleDanger}">3. ทานไม่ได้เลย</button>
+                    </div>`;
+                } else if (q === 'ระบบทางเดินหายใจ') {
+                    buttonsHTML = `<div class="${gridClass}">
+                        <button onclick="answerQ('หายใจปกติ')" class="${btnStyleSafe}">1. หายใจปกติ</button>
+                        <button onclick="answerQ('ไอ/เจ็บคอ')" class="${btnStyleWarning}">2. ไอ/เจ็บคอ</button>
+                        <button onclick="answerQ('เหนื่อยหอบ/หายใจไม่ออก')" class="${btnStyleDanger}">3. เหนื่อยหอบ/หายใจไม่ออก</button>
+                    </div>`;
+                } else {
+                    // Fallback เผื่อมีคำถามอื่นหลุดมา
+                    buttonsHTML = `<div class="flex gap-4 justify-center w-full">
+                        <button onclick="answerQ('เลือกข้อ 1')" class="${btnStyleNeutral}">ตัวเลือก 1</button>
+                        <button onclick="answerQ('เลือกข้อ 2')" class="${btnStyleNeutral}">ตัวเลือก 2</button>
+                        <button onclick="answerQ('เลือกข้อ 3')" class="${btnStyleNeutral}">ตัวเลือก 3</button>
+                    </div>`;
                 }
 
                 btns.innerHTML = buttonsHTML;
@@ -570,7 +532,11 @@
             updateState({ answers: newAnswers, currentQ: null });
         }
 
-        // โหลดครั้งแรกตอนเปิดไฟล์
+        function confirmBodyMap() {
+            if (!state.tags || state.tags.length === 0) return;
+            updateState({ phase: 'BODYMAP_DONE' });
+        }
+
         render();
     </script>
 </body>
