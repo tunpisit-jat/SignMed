@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SignMed - Nurse Dashboard</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Sarabun', 'sans-serif'], en: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 900: '#1e3a8a' },
+            alert: '#ef4444', safe: '#10b981', customblue: '#51a8d6', customdark: '#31326f'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #f1f5f9;
+      color: #334155;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border-radius: 1.5rem;
+    }
+
+    .btn-primary {
+      background-color: #2563eb;
+      color: white;
+      padding: 0.875rem 1.5rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39);
+    }
+
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    /* Custom Scrollbar ให้ดูสวยงาม */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    /* คลาสสำหรับซ่อน-แสดงหน้าจอ (แบบเดียวกับ patient.html) */
+    .screen-page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body class="h-screen flex flex-col overflow-hidden text-sm">
+
+  <nav id="top-nav"
+    class="bg-white border-b border-slate-200 px-8 py-2 flex items-center justify-between z-20 shadow-sm shrink-0 transition-opacity duration-300"
+    style="display: none;">
+    <div class="flex items-center gap-4">
+      <div class="flex items-center">
+        <img src="logo_signmed.png" alt="SignMed Logo" class="h-20 w-auto object-contain">
+      </div>
+      <div class="h-6 w-px bg-slate-200"></div>
+      <span class="bg-brand-50 text-brand-600 text-xs font-bold px-3 py-1.5 rounded-full tracking-wide">NURSE
+        PORTAL</span>
+    </div>
+    <div class="flex items-center gap-6" id="stepper"></div>
+  </nav>
+
+  <main class="flex-1 relative overflow-hidden" id="app-content">
+
+    <div id="page-identify" class="screen-page flex-col items-center justify-center p-8 overflow-y-auto">
+      <div
+        class="bg-white rounded-xl shadow-lg border border-slate-100 p-10 w-full max-w-[440px] flex flex-col items-center text-center my-auto">
+        <img src="logo_signmed.png" alt="SignMed Logo" class="h-52 ">
+        <h2 class="text-lg font-bold text-customdark mb-1">ระบุตัวตนผู้ป่วย</h2>
+        <p class="text-xs text-slate-400 mb-8 font-medium">กรอกข้อมูลเพื่อเริ่มต้นการซักประวัติ</p>
+        <div class="w-full text-center mb-6">
+          <label class="block text-[11px] font-bold text-slate-500 mb-2">เลขบัตรประจำตัวประชาชน</label>
+          <input type="text" id="patientIdInput" placeholder="000-0000-0000-00"
+            class="w-full border border-slate-300 rounded-md py-3 px-4 text-center text-sm font-medium focus:outline-none focus:border-customblue focus:ring-1 focus:ring-customblue">
+        </div>
+        <button onclick="startSession()"
+          class="w-full bg-customblue hover:bg-blue-500 text-white font-bold py-3.5 rounded-md text-[15px] shadow-sm transition-all active:scale-95">เริ่มต้นซักประวัติ</button>
+      </div>
+    </div>
+
+    <div id="page-start" class="screen-page flex-col items-center justify-start p-8 overflow-y-auto">
+      <div class="glass-card w-full max-w-lg p-8 mt-10">
+        <div class="mb-8 text-center">
+          <h2 class="text-xl font-bold text-slate-800 mb-1">เริ่มการประเมินผู้ป่วย</h2>
+          <p class="text-slate-500 text-sm">ตรวจสอบข้อมูลและส่งหน้าจอให้ผู้ป่วยที่จุด Kiosk</p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 mb-8 relative">
+          <div id="start-session-id"
+            class="absolute top-4 right-4 bg-white border border-slate-200 px-3 py-1 rounded-full text-[10px] font-en font-bold text-slate-400 shadow-sm">
+            Session: -
+          </div>
+          <div class="flex items-center gap-4 mb-4">
+            <div
+              class="w-16 h-16 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center text-xl font-bold font-en">
+              SM</div>
+            <div>
+              <div class="font-bold text-lg text-slate-800">นายสมชาย ใจดี</div>
+              <div id="start-patient-id" class="text-slate-500 font-en text-sm">HN: -</div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200">
+            <div>
+              <div class="text-[11px] text-slate-400 mb-1 font-bold">อายุ / เพศ</div>
+              <div class="font-semibold text-slate-700 text-sm">34 ปี / ชาย</div>
+            </div>
+            <div>
+              <div class="text-[11px] text-slate-400 mb-1 font-bold">สถานะ</div>
+              <div class="font-semibold text-slate-700 text-sm">หูหนวกแต่กำเนิด</div>
+            </div>
+          </div>
+        </div>
+        <button onclick="updateState({phase: 'INTRO'})"
+          class="btn-primary w-full text-[15px] py-4 rounded-xl">ส่งหน้าจอให้ผู้ป่วย</button>
+      </div>
+    </div>
+
+   <div id="page-bodymap" class="screen-page flex-col items-center justify-start p-8 overflow-y-auto">
+      <div class="w-full max-w-4xl grid grid-cols-3 gap-8 h-[calc(100vh-8rem)]">
+        <div class="col-span-1 glass-card p-6 flex flex-col relative">
+          <div id="bm-session-id" class="absolute top-4 right-4 text-[10px] font-en font-bold text-slate-400"></div>
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">ข้อมูลผู้ป่วย</h3>
+          <div class="font-bold text-lg text-slate-800 mb-1">นายสมชาย ใจดี</div>
+          <div id="bm-patient-id" class="text-slate-500 font-en mb-6">HN: -</div>
+        </div>
+        <div class="col-span-2 glass-card p-6 flex flex-col relative">
+          <div class="absolute top-6 right-6 flex items-center gap-2 text-brand-600 font-bold text-xs bg-brand-50 px-3 py-1.5 rounded-full">
+            <span class="w-2 h-2 rounded-full bg-brand-600 animate-ping"></span> LIVE SYNC
+          </div>
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">สถานะหน้าจอผู้ป่วย</h3>
+          
+          <div class="flex flex-col gap-6">
+            <div id="bm-tag-box" class="flex items-start gap-6 p-6 bg-slate-50 rounded-2xl border transition-all">
+              <div>
+                <div class="text-sm font-semibold text-slate-500 mb-1">ตำแหน่งที่เจ็บ</div>
+                <div id="bm-tag-text" class="text-xl font-bold">รอผู้ป่วยแตะเลือก...</div>
+              </div>
+            </div>
+            <div id="bm-pain-box" class="flex items-start gap-6 p-6 bg-slate-50 rounded-2xl border transition-all">
+              <div>
+                <div class="text-sm font-semibold text-slate-500 mb-1">ระดับความปวด</div>
+                <div id="bm-pain-text" class="text-xl font-bold"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="page-qa" class="screen-page flex-col items-center justify-start p-8 overflow-y-auto">
+      <div class="w-full max-w-6xl grid grid-cols-12 gap-8 h-[calc(100vh-8rem)]">
+
+        <div class="col-span-7 glass-card p-8 flex flex-col relative h-full overflow-hidden">
+          <div id="qa-session-id"
+            class="absolute top-6 right-6 text-[11px] font-en font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+          </div>
+          <h2 class="text-xl font-bold text-slate-800 mb-6 shrink-0">บันทึกการซักประวัติ</h2>
+          <div class="grid grid-cols-2 gap-4 mb-8 shrink-0">
+            <div class="bg-brand-50 p-4 rounded-2xl border border-brand-100">
+              <div class="text-xs text-brand-600 font-bold mb-1 uppercase">ตำแหน่ง</div>
+              <div id="qa-tag-text" class="font-bold text-slate-800"></div>
+            </div>
+            <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100">
+              <div class="text-xs text-orange-600 font-bold mb-1 uppercase">Pain Score</div>
+              <div id="qa-pain-text" class="font-bold text-slate-800"></div>
+            </div>
+          </div>
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 shrink-0">ประวัติที่ตอบแล้ว</h3>
+
+          <div id="qa-answered-list" class="flex-1 overflow-y-auto pr-2 space-y-3 custom-scrollbar min-h-0">
+          </div>
+
+          <div class="pt-6 mt-4 border-t border-slate-100 flex gap-4 shrink-0">
+            <button onclick="updateState({phase: 'ALERT'})"
+              class="flex-1 border-2 border-red-500 text-red-500 font-bold py-3.5 rounded-xl hover:bg-red-50 transition-all">🚨
+              แจ้งเตือนฉุกเฉิน</button>
+            <button onclick="updateState({phase: 'OUTPUT'})"
+              class="flex-1 bg-slate-800 text-white font-bold py-3.5 rounded-xl hover:bg-slate-900 transition-all shadow-md">จบซักประวัติ
+              → สรุปผล</button>
+          </div>
+        </div>
+
+        <div class="col-span-5 glass-card p-6 flex flex-col bg-slate-50/50 h-full overflow-hidden">
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 shrink-0">คลังคำถามซักประวัติ</h3>
+
+          <div id="qa-question-bank" class="flex-1 overflow-y-auto pr-2 custom-scrollbar min-h-0">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="page-alert" class="screen-page flex-col items-center justify-start p-8 overflow-y-auto">
+      <div class="glass-card w-full max-w-2xl p-10 mt-10 border-2 border-alert relative overflow-hidden bg-red-50">
+        <div class="flex items-center gap-4 text-alert mb-6">
+          <h1 class="text-3xl font-extrabold">แจ้งเตือนวิกฤต</h1>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-red-100 mb-8">
+          <div class="text-slate-600 mb-2 font-medium">ผู้ป่วยประเมินความปวดที่ระดับ</div>
+          <div class="text-5xl font-black text-alert mb-2"><span id="alert-pain-text"></span><span
+              class="text-2xl text-slate-400">/10</span></div>
+        </div>
+        <div class="bg-slate-900 text-white p-5 rounded-2xl mb-8 flex justify-between items-center">
+          <div>
+            <div class="font-bold">ศูนย์ล่าม TTRS</div>
+            <div class="text-xs text-slate-400">กำลังเชื่อมต่อวิดีโอคอล...</div>
+          </div>
+          <div class="text-safe animate-pulse font-bold">CONNECTING...</div>
+        </div>
+        <button onclick="updateState({phase: 'OUTPUT'})"
+          class="w-full bg-slate-800 text-white font-bold py-4 rounded-xl hover:bg-slate-700 transition-colors">รับทราบและดำเนินการต่อ
+          →</button>
+      </div>
+    </div>
+
+    <div id="page-output" class="screen-page flex-col items-center justify-start p-8 overflow-y-auto">
+      <div class="glass-card w-full max-w-3xl p-10 mt-6 flex flex-col h-full max-h-[85vh]">
+        <div class="flex items-center justify-between mb-6 pb-6 border-b border-slate-100 shrink-0">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">ระบบสรุปข้อความรายงานอาการ</h2>
+            <div class="text-xs text-slate-400 mt-1">คัดลอกข้อความด้านล่างเพื่อวางในระบบ HIS</div>
+          </div>
+          <button class="btn-primary bg-white text-brand-600 border border-brand-200 hover:bg-brand-50"
+            onclick="alert('คัดลอกสำเร็จ!'); this.innerHTML='✓ คัดลอกแล้ว'">📋 Export Text</button>
+        </div>
+
+        <div id="output-summary"
+          class="bg-slate-50 p-6 rounded-2xl border border-slate-200 font-mono text-slate-700 leading-loose mb-8 text-[15px] flex-1 overflow-y-auto custom-scrollbar">
+        </div>
+
+        <button onclick="resetSession()"
+          class="w-full bg-slate-800 text-white font-bold py-5 rounded-2xl text-lg hover:bg-slate-900 transition-all shadow-lg active:scale-95 shrink-0">
+          ✓ จบการทำงาน (Finish Session)
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // --- State Management ---
+    const initialState = {
+      phase: 'IDENTIFY',
+      patientID: '',
+      sessionID: '',
+      painScore: 5,
+      tags: [],
+      answers: [],
+      currentQ: null
+    };
+
+    let state = JSON.parse(localStorage.getItem('signmed_state')) || initialState;
+
+    function updateState(newState) {
+      state = { ...state, ...newState };
+      localStorage.setItem('signmed_state', JSON.stringify(state));
+      render();
+    }
+
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'signmed_state') { state = JSON.parse(e.newValue); render(); }
+    });
+
+    function startSession() {
+      const idInput = document.getElementById('patientIdInput').value || 'SM-2024-4821';
+      const newSessionID = 'SID-' + Math.floor(1000 + Math.random() * 9000);
+      updateState({ phase: 'START', patientID: idInput, sessionID: newSessionID });
+    }
+
+    function resetSession() {
+      updateState(initialState);
+    }
+
+    function sendQ(q) {
+      if (!state.currentQ) updateState({ currentQ: q });
+    }
+
+    // --- Data ---
+    const questionCategories = [
+      {
+        title: '🚨 หมวดที่ 1: คำถามสำคัญเร่งด่วน',
+        color: 'text-red-600 bg-red-50',
+        questions: ['ท่านมีประวัติแพ้ยา หรือแพ้อาหารไหม?', '(สำหรับผู้หญิง) ท่านกำลังตั้งครรภ์ หรือให้นมบุตรอยู่ไหม?']
+      },
+      {
+        title: '⏱️ หมวดที่ 2: ระยะเวลาและลักษณะอาการ',
+        color: 'text-blue-600 bg-blue-50',
+        questions: ['ท่านมีอาการเจ็บปวด หรือป่วยมานานแค่ไหนแล้ว?', 'ลักษณะอาการปวดของท่าน เป็นแบบไหน?']
+      },
+      {
+        title: '🤒 หมวดที่ 3: อาการร่วมที่พบบ่อย',
+        color: 'text-orange-600 bg-orange-50',
+        questions: ['ท่านมีไข้ หรือรู้สึกตัวร้อนไหม?', 'ท่านมีอาการคลื่นไส้ หรืออาเจียนร่วมด้วยไหม?']
+      },
+      {
+        title: '📋 หมวดที่ 4: ประวัติสุขภาพเดิม',
+        color: 'text-emerald-600 bg-emerald-50',
+        questions: ['ท่านมีโรคประจำตัวไหม?', 'ก่อนหน้านี้ ท่านได้รับประทานยาอะไรมาบรรเทาอาการไหม?']
+      }
+    ];
+
+    // --- UI Rendering Logic ---
+    function renderStepper() {
+      const steps = ['ลงทะเบียน', 'รอประเมิน', 'ซักประวัติ', 'สรุปผล'];
+      let currentIdx = state.phase === 'START' ? 0 : state.phase === 'QA' ? 2 : (state.phase === 'ALERT' || state.phase === 'OUTPUT') ? 3 : 1;
+      document.getElementById('stepper').innerHTML = steps.map((s, i) => `
+    <div class="flex items-center gap-2 ${i === currentIdx ? 'opacity-100' : 'opacity-40'}">
+      <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${i === currentIdx ? 'bg-brand-600 text-white' : 'bg-slate-200 text-slate-500'}">${i + 1}</div>
+      <span class="font-semibold ${i === currentIdx ? 'text-slate-800' : 'text-slate-500'}">${s}</span>
+      ${i < steps.length - 1 ? '<div class="w-4 h-px bg-slate-300 ml-4"></div>' : ''}
+    </div>`).join('');
+    }
+
+   function render() {
+      // 1. ซ่อนทุกหน้าก่อน
+      document.querySelectorAll('.screen-page').forEach(page => page.style.display = 'none');
+      const topNav = document.getElementById('top-nav');
+
+      // 2. เช็ค State แล้วแสดงหน้าและข้อมูลที่เกี่ยวข้อง
+      if (state.phase === 'IDENTIFY') {
+        topNav.style.display = 'none';
+        document.getElementById('page-identify').style.display = 'flex';
+      }
+      else {
+        topNav.style.display = 'flex';
+        renderStepper();
+
+        if (state.phase === 'START') {
+          document.getElementById('page-start').style.display = 'flex';
+          document.getElementById('start-session-id').innerText = `Session: ${state.sessionID}`;
+          document.getElementById('start-patient-id').innerText = `HN: ${state.patientID}`;
+        }
+        else if (state.phase === 'INTRO' || state.phase === 'BODYMAP') {
+          document.getElementById('page-bodymap').style.display = 'flex';
+          
+          document.getElementById('bm-session-id').innerText = state.sessionID;
+          document.getElementById('bm-patient-id').innerText = `HN: ${state.patientID}`;
+          
+          // Update Body Map Sync UI (เรียงต่อกันบน-ล่างตามที่คุณต้องการ)
+          const tagBox = document.getElementById('bm-tag-box');
+          const tagText = document.getElementById('bm-tag-text');
+          if (state.tags && state.tags.length > 0) {
+            tagBox.className = 'flex items-start gap-6 p-6 rounded-2xl border border-brand-200 bg-brand-50 transition-all';
+            tagText.className = 'text-xl font-bold text-slate-800';
+            tagText.innerText = state.tags.join(', ');
+          } else {
+            tagBox.className = 'flex items-start gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-100 transition-all';
+            tagText.className = 'text-xl font-bold text-slate-300';
+            tagText.innerText = 'รอผู้ป่วยแตะเลือก...';
+          }
+
+          // Update Pain Sync UI (เรียงต่อกันบน-ล่างตามที่คุณต้องการ)
+          const painBox = document.getElementById('bm-pain-box');
+          const painText = document.getElementById('bm-pain-text');
+          if (state.phase === 'QA' || state.painScore) {
+            painBox.className = 'flex items-start gap-6 p-6 rounded-2xl border border-brand-200 bg-brand-50 transition-all';
+            painText.className = `text-xl font-bold ${state.painScore >= 8 ? 'text-alert' : 'text-amber-500'}`;
+          } else {
+            painBox.className = 'flex items-start gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-100 transition-all';
+            painText.className = 'text-xl font-bold text-slate-300';
+          }
+          painText.innerText = state.painScore ? state.painScore + ' / 10' : '-';
+        }
+        else if (state.phase === 'QA') {
+          document.getElementById('page-qa').style.display = 'flex';
+
+          document.getElementById('qa-session-id').innerText = state.sessionID;
+          document.getElementById('qa-tag-text').innerText = (state.tags && state.tags.length) ? state.tags.join(', ') : '-';
+          document.getElementById('qa-pain-text').innerText = `${state.painScore}/10`;
+
+          // สร้างรายการที่ตอบแล้ว
+          const answeredList = document.getElementById('qa-answered-list');
+          if (!state.answers || state.answers.length === 0) {
+            answeredList.innerHTML = '<div class="text-center text-slate-400 py-10">ยังไม่มีข้อมูลซักประวัติ</div>';
+          } else {
+            answeredList.innerHTML = state.answers.map(a => `
+              <div class="flex justify-between items-center p-4 bg-white border border-slate-100 rounded-xl shadow-sm">
+                <span class="text-slate-700 font-medium">${a.q}</span>
+                <span class="px-4 py-1.5 rounded-lg text-sm font-bold bg-slate-100 text-slate-700">${a.ans}</span>
+              </div>`).join('');
+          }
+
+          // สร้างคลังคำถาม
+          const qBank = document.getElementById('qa-question-bank');
+          let categoriesHTML = questionCategories.map(cat => {
+            let qsHTML = cat.questions.map(q => {
+              const isAsking = state.currentQ === q;
+              const isAnswered = state.answers && state.answers.find(a => a.q === q);
+              if (isAnswered) return ''; // ซ่อนถ้าตอบแล้ว
+              return `
+                <button onclick="sendQ('${q}')" class="text-left p-3.5 rounded-xl border w-full mb-2 transition-all relative overflow-hidden group ${isAsking ? 'border-brand-500 bg-brand-50' : 'border-slate-200 bg-white hover:border-brand-300'}">
+                  <div class="font-semibold text-[13px] ${isAsking ? 'text-brand-700' : 'text-slate-700'}">${q}</div>
+                  ${isAsking ? `<div class="mt-1 text-[10px] text-brand-600 font-bold animate-pulse">● ผู้ป่วยกำลังตอบ...</div>` : `<div class="mt-1.5 text-[11px] text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">▶ กดส่งคำถาม</div>`}
+                </button>`;
+            }).join('');
+
+            if (!qsHTML) return '';
+            return `
+              <div class="mb-5">
+                <div class="text-[11px] font-bold px-3 py-1.5 rounded-lg inline-block mb-2 ${cat.color}">${cat.title}</div>
+                <div class="flex flex-col gap-1">${qsHTML}</div>
+              </div>`;
+          }).join('');
+
+          qBank.innerHTML = categoriesHTML || '<div class="text-center text-emerald-500 font-bold py-10">✓ ตอบครบทุกข้อแล้ว</div>';
+        }
+        else if (state.phase === 'ALERT') {
+          document.getElementById('page-alert').style.display = 'flex';
+          document.getElementById('alert-pain-text').innerText = state.painScore;
+        }
+        else if (state.phase === 'OUTPUT') {
+          document.getElementById('page-output').style.display = 'flex';
+
+          const summaryText = document.getElementById('output-summary');
+          summaryText.innerHTML = `
+            [SignMed Assessment - ${state.sessionID}]<br>นายสมชาย ใจดี (HN: ${state.patientID})<br>
+            - อาการปวด: ${(state.tags && state.tags.length > 0) ? state.tags.join(', ') : 'ไม่ได้ระบุ'}<br>
+            - Pain Score: ${state.painScore}/10<br>
+            - ซักประวัติเพิ่มเติม:<br>
+            ${(state.answers || []).map(a => `  • ${a.q} => <span class="font-bold">${a.ans}</span>`).join('<br>')}<br>
+          `;
+        }
+      }
+    }
+
+    // Initial Call
+    render();
+  </script>
+</body>
+
+</html>
